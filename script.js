@@ -5,14 +5,26 @@ const SECONDS_DISPLAY = document.getElementById("seconds")
 const START_STOP_BTN = document.getElementById("start-stop-btn")
 const RESET_BTN = document.getElementById("reset-btn")
 
+
 let hours = 0
 let minutes = 0
 let seconds = 0
+
 
 HOURS_DISPLAY.innerText = String(hours).padStart(2, "0")
 MINUTES_DISPLAY.innerText = String(minutes).padStart(2, "0")
 SECONDS_DISPLAY.innerText = String(seconds).padStart(2, "0")
 
+const setInitialtime = ()=>{
+    const time = JSON.parse(localStorage.getItem("item"))
+    if (time) {
+        hours= time.hours
+        minutes = time.minutes
+        seconds = time.seconds
+    }
+}
+
+setInitialtime()
 const updateTime = () => {
     seconds++
     if (seconds == 60) {
@@ -45,6 +57,7 @@ const stop = () => {
     START_STOP_BTN.addEventListener("click", start)
     START_STOP_BTN.removeEventListener("click", stop)
     clearInterval(timer)
+    localStorage.setItem("item", JSON.stringify({hours, minutes, seconds}))
 }
 
 const reset = () => {
@@ -55,10 +68,10 @@ const reset = () => {
      hours = 0
      minutes = 0
      seconds = 0
-
     HOURS_DISPLAY.innerText = String(hours).padStart(2, "0")
     MINUTES_DISPLAY.innerText = String(minutes).padStart(2, "0")
     SECONDS_DISPLAY.innerText = String(seconds).padStart(2, "0")
+    localStorage.setItem("item", JSON.stringify({hours, minutes, seconds}))
 }
 
 
